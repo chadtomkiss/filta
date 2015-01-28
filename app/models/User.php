@@ -24,4 +24,9 @@ class User extends SentryUser implements UserInterface, RemindableInterface {
 	 */
 	protected $hidden = array('password', 'remember_token');
 
+	public function following()
+	{
+		return $this->belongsToMany('User', 'twitter_user', 'user_id', 'following_id')->withTimestamps();
+	}
+
 }
