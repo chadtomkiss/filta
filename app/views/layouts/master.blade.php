@@ -7,13 +7,13 @@
 <body>
 
 	<div class="site-header" style="display: block">
-		@if($current_user)
 		<div style="float: left; display: block; width: 60%">
-			<input type="text" name="search_followers" value="{{ Input::get('query') }}" id="js-search-followers" placeholder="Search..." />
+			<a href="{{ URL::to('dashboard') }}" class="logo">Filta</a>
 		</div>
+		@if($current_user)
 		<div style="float: left; display: block; width: 40%">
 			<div class="header-buttons">
-				<a class="button button--twitter" href="{{ URL::to('twitter/import') }}">Import</a>
+				<a class="button button--primary" href="{{ URL::to('twitter/import') }}">Import</a>
 				<a class="button button--twitter" href="{{ URL::route('logout') }}">Logout</a>
 			</div>
 		</div>

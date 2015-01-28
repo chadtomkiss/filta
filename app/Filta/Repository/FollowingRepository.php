@@ -39,8 +39,11 @@
 
 			if($term)
 			{
-				$following->where('twitter_user_location', 'LIKE', "%{$term}%")
-		                ->orWhere('twitter_user_description', 'LIKE', "%{$term}%");
+				$following->where(function($query) use ($term) 
+				{
+					$query->where('twitter_user_location', 'LIKE', "%{$term}%");
+		            $query->orWhere('twitter_user_description', 'LIKE', "%{$term}%");
+				});
 			}
 			
 			return $following->paginate($perPage);

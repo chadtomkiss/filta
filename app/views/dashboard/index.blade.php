@@ -3,8 +3,14 @@
 @section('content')
 
 <div style="margin: 2% 0 5% 0;">
+	<div style="padding-left: 2%; padding-bottom: 2%">
+		<input type="text" name="search_followers" value="{{ Input::get('query') }}" id="js-search-followers" placeholder="Search..." />
+	</div>
 
 	<div style="padding-left: 2%; padding-right: 5%">
+		<div id="ajaxProgress" style="display: none;">
+			<img src="https://i0.wp.com/cdnjs.cloudflare.com/ajax/libs/galleriffic/2.0.1/css/loader.gif" />
+		</div>
 		<div id="following-table-container">
 		</div>
 	</div>

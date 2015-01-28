@@ -12,17 +12,6 @@
 			$userId = array_get($data, 'user_id');
 			$cursor = array_get($data, 'next_cursor');
 
-			// Done!
-			if(!$cursor)
-			{
-				exit;
-			}
-
-			if(!$userId)
-			{
-				exit;
-			}
-
 			$user = User::find($userId);
 
 			if(!$user)
@@ -33,10 +22,17 @@
 			$twitterOAuthToken = $user->twitter_oauth_token;
 			$twitterOAuthSecret = $user->twitter_oauth_token_secret;
 
+			if(!$twitterOAuthToken || !$twitterOAuthSecret)
+			{
+				Log::error('No token for UserID: ' . $user->id);
+				exit;
+			}
+
 			Twitter::setOAuthToken($twitterOAuthToken);
    	 		Twitter::setOAuthTokenSecret($twitterOAuthSecret);
 
    	 		$friends = NULL;
+   	 		$retry = false;
    	 		try
    	 		{
    	 			$friends = Twitter::friendsList($user->twitter_user_id, NULL, $cursor);
@@ -44,14 +40,25 @@
    	 		catch(Exception $e)
    	 		{
    	 			Log::error($e);
-   	 			dd($e);
-   	 			exit;
+   	 			$retry = true;
    	 		}
    	 		
    	 		if(!isset($friends['users']))
    	 		{
-   	 			exit;
+   	 			Log::error(json_encode($friends));
+				$retry = true; 
    	 		}
+
+   	 		if($retry)
+   	 		{
+   	 			if($job->attempts() < 3)
+	 			{
+	 				$job->release(120);
+	 			}
+
+	 			$job->delete();
+	 			exit;
+	 		}
 
    	 		$nextCursor = $friends['next_cursor_str'];
 		    $friendIDs = array();
@@ -106,21 +113,23 @@
 		    	$user->following()->sync($syncFriends, false);
 		    }
 
-		    $lastImport = $cursor;
+		    $lastImport = ($nextCursor > 0) ? $cursor : 0;
 
-			$user->last_import = $lastImport;
-			$user->save();
+		    $user->last_import = $lastImport;
+		    $user->save();
 
-			$queueData = array(
-				'user_id' => $user->id,
-				'next_cursor' => $nextCursor,
-			);
+			// Next batch
+			if($nextCursor > 0)
+			{
+				$queueData = array(
+					'user_id' => $user->id,
+					'next_cursor' => $nextCursor,
+				);
 
-			var_dump($queueData);
-
-			$date = \Carbon\Carbon::now();
-			Queue::later($date, '\Filta\Services\Queue\FollowingQueue@storeUsers', $queueData);
-
+				$date = \Carbon\Carbon::now()->addSeconds(120);
+				Queue::later($date, '\Filta\Services\Queue\FollowingQueue@storeUsers', $queueData);
+			}
+			
 			$job->delete();
 		}
 	}
