@@ -41,11 +41,25 @@
 			{
 				$following->where(function($query) use ($term) 
 				{
-					$query->where('twitter_user_location', 'LIKE', "%{$term}%");
-		            $query->orWhere('twitter_user_description', 'LIKE', "%{$term}%");
+					$parts = explode(' ', $term);
+
+					$safeTerm = array();
+					foreach($parts as $part)
+					{
+						if($part)
+						{
+							$safeTerm[] = preg_replace('/[^a-zA-Z0-9\s]/', '', trim($part)) . ':*';
+						}
+					}
+
+					if($safeTerm)
+					{
+						$search = join('&', $safeTerm);
+						$query->whereRaw("searchtext @@ to_tsquery(?)", array($search));
+					}
 				});
 			}
 			
-			return $following->paginate($perPage);
+			return $following->remember(60)->paginate($perPage);
 		}
 	}

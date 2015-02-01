@@ -29,7 +29,7 @@ class AddDefaultGroups extends Migration {
 	public function down()
 	{
 		// Find the group using the group name
-	    $group = Sentry::findGroupByName('users');
+	    $group = Sentry::findGroupByName('Users');
 
 	    // Delete the group
 	    $group->delete();

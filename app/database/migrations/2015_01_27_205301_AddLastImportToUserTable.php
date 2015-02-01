@@ -13,7 +13,7 @@ class AddLastImportToUserTable extends Migration {
 	public function up()
 	{
 		Schema::table('users', function($table) {
-			$table->string('last_import')->after('twitter_oauth_token_secret');
+			$table->string('last_import')->after('twitter_oauth_token_secret')->nullable();
 		});
 	}
 

@@ -47,6 +47,8 @@ class AddTwitterFieldsToUserTable extends Migration {
 			$table->dropColumn('twitter_user_url');
 			$table->dropColumn('twitter_user_profile_image_url');
 			$table->dropColumn('twitter_user_profile_image_url_https');
+			$table->dropColumn('twitter_oauth_token');
+			$table->dropColumn('twitter_oauth_token_secret');
 		});
 	}
 

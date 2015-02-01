@@ -8,7 +8,8 @@
 		"laravel/framework": "4.2.*",
 		"cartalyst/sentry": "2.1.*",
 		"socialh4ck/twitter": "dev-master",
-		"socialh4ck/twitteroauth": "dev-master"
+		"socialh4ck/twitteroauth": "dev-master",
+		"fzaninotto/faker": "1.4.*"
 	},
 	"autoload": {
 		"classmap": [

@@ -89,6 +89,8 @@
 			    	'twitter_user_profile_image_url' => $twitter_user_profile_image_url,
 			    	'twitter_user_profile_image_url_https' => $twitter_user_profile_image_url_https,
 			    	'activated' => true,
+			    	'created_at' => \Carbon\Carbon::now()->format('Y-m-d H:i:s'),
+           	 		'updated_at' => \Carbon\Carbon::now()->format('Y-m-d H:i:s')
 			    );
 
 			    $friendIDs[$twitter_user_id] = $details;

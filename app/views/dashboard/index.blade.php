@@ -100,7 +100,7 @@ var paginate = function(pagination, options) {
 	return ret;
 };
 
-Handlebars.registerHelper('paginate', paginate);
+Handlebars.registerHelper('paginate', paginate); 
 
 var FILTA = {
 
@@ -111,7 +111,13 @@ var FILTA = {
 		html = template(resJSON);
 
 		$('#following-table-container').html(html);
-		$('#following-table-container').highlight($('#js-search-followers').val());
+
+		var search = $('#js-search-followers').val();
+		var words = search.split(' ');
+
+		$.each(words, function(i, word) {
+			$('#following-table-container').highlight(word);
+		});
 	},
 	handleData:function(resJSON) {
 
@@ -121,8 +127,15 @@ var FILTA = {
 		html = template(resJSON);
 
 		$('#following-table-container').html(html);
-		$('#following-table-container').highlight($('#js-search-followers').val());
 
+		var search = $('#js-search-followers').val();
+		var words = search.split(' ');
+
+		window.history.pushState({}, '', '/dashboard?query=' + search);
+
+		$.each(words, function(i, word) {
+			$('#following-table-container').highlight(word);
+		});
 	},
 	searchData : function(term, page) {
 

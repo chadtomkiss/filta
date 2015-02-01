@@ -179,6 +179,8 @@ Route::post('twitter/import', array('as' => 'twitter.import.post', 'uses' => fun
 	    	'twitter_user_profile_image_url' => $twitter_user_profile_image_url,
 	    	'twitter_user_profile_image_url_https' => $twitter_user_profile_image_url_https,
 	    	'activated' => true,
+            'created_at' => \Carbon\Carbon::now()->format('Y-m-d H:i:s'),
+            'updated_at' => \Carbon\Carbon::now()->format('Y-m-d H:i:s')
 	    );
 
 	    $friendIDs[$twitter_user_id] = $details;
@@ -227,3 +229,60 @@ Route::get('api/following', function() {
 
 	return Response::json($search);
 });
+
+// Route::get('faker', function() {
+
+//     set_time_limit(0);
+//     ini_set('max_execution_time', 1000);
+//     ini_set('memory_limit','10G');
+//     error_reporting(E_ALL);
+//     ini_set('display_errors', 1);
+
+//     $faker = Faker\Factory::create();
+
+//     $users = array();
+//     $now = \Carbon\Carbon::now()->format('Y-m-d H:i:s');
+
+//     $password = Hash::make('scott_riley_m8s');
+
+//     $twitterUserID = $faker->randomDigitNotNull;
+//     $name = $faker->name;
+//     $userName = $faker->userName;
+//     $city = $faker->city;
+//     $sentence = $faker->sentence(6);
+//     $url = $faker->url;
+//     $imageUrl = $faker->imageUrl(90, 90);
+
+//     for($i = 0; $i <= 300000; $i++)
+//     {
+//         $users[] = array(
+//             'email' => 'omgwtflolm8'.$i.'@hotmail.com',
+//             'password' => $password,
+//             'twitter_user_id' => $twitterUserID,
+//             'twitter_user_name' => $name,
+//             'twitter_user_screen_name' => $userName,
+//             'twitter_user_location' => $city,
+//             'twitter_user_description' => $sentence,
+//             'twitter_user_url' => $url,
+//             'twitter_user_profile_image_url' => $imageUrl,
+//             'twitter_user_profile_image_url_https' => $imageUrl,
+//             'activated' => true,
+//             'created_at' => $now,
+//             'updated_at' => $now
+//         );
+//     }
+
+//     foreach(array_chunk($users, 5000) as $userChunk)
+//     {
+//          User::insert($userChunk);
+//     }
+    
+//     // $user = Sentry::getUser();
+
+//     // $syncFriends = User::where('id', '!=', $user->id)->lists('id');
+
+//     // foreach(array_chunk($syncFriends, 50000) as $syncFriendsChunk)
+//     // {
+//     //      $user->following()->sync($syncFriendsChunk, false);
+//     // }
+// });
