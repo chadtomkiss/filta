@@ -5628,11 +5628,12 @@ html:hover [class^="ss-social"] {
 .icon-smashing:before {
   content: "\e71b"; }
 
-  .pagination {
+.pagination_container {
   height: 36px;
   margin: 18px 0;
+  text-align: center;
 }
-.pagination ul {
+.pagination {
   display: inline-block;
   *display: inline;
   /* IE7 inline-block hack */
@@ -5650,7 +5651,7 @@ html:hover [class^="ss-social"] {
 .pagination li {
   display: inline;
 }
-.pagination a {
+.pagination a, .pagination span {
   float: left;
   padding: 0 14px;
   line-height: 34px;

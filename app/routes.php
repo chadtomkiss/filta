@@ -223,7 +223,11 @@ Route::get('api/following', function() {
 	$followingRepo = new Filta\Repository\FollowingRepository;
 	$search = $followingRepo->search($userID, $term);
 
-	return Response::json($search);
+    $data['users'] = $search;
+
+    $html = View::make('partials.following_table', $data)->render();
+
+	return $html;
 });
 
 // Route::get('faker', function() {

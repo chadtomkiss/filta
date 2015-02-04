@@ -19,7 +19,7 @@
 			$followingRepo = new \Filta\Repository\FollowingRepository;
 			$search = $followingRepo->search($userID, $term);
 
-		    $data['following'] = json_encode($search);
+			$data['users'] = $search;
 
 			return View::make('dashboard.index', $data);
 		}

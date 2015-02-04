@@ -7,21 +7,12 @@
 
 		public function search($userID, $term, $perPage = 50)
 		{
-			$results = $this->paginate($userID, $term, $perPage);
+			$result = $this->paginate($userID, $term, $perPage);
 
-			$data['records'] = $results->getItems();
-			$data['pagination'] = [
-				'count'		   => $results->count(),
-		        'total'        => $results->getTotal(),
-		        'per_page'     => $results->getPerPage(),
-		        'current_page' => $results->getCurrentPage(),
-		        'last_page'    => $results->getLastPage(),
-		        'from'         => $results->getFrom(),
-		        'to'           => $results->getTo(),
-		        'term'		   => $term
-		    ];
+			$result->setBaseUrl('dashboard');
+			$result->appends(array('query' => $term));
 
-		    return $data;
+			return $result;
 		}
 
 		public function paginate($userID, $term, $perPage)
