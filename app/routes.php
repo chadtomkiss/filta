@@ -100,14 +100,6 @@ Route::get('twitter/auth', function(){
 
     Sentry::login($user);
 
-    // TODO
-    // Get People User Follows
-    // Link them
-    // Show Table
-    // Filter Table
-    // Tag Table
-    // Nice m8
-
     return Redirect::route('dashboard');
 });
 
@@ -147,6 +139,7 @@ Route::post('twitter/import', array('as' => 'twitter.import.post', 'uses' => fun
 
     if(!isset($friends['users']))
     {
+        dd($friends);
         exit;
     }
 
@@ -200,6 +193,9 @@ Route::post('twitter/import', array('as' => 'twitter.import.post', 'uses' => fun
     	$syncFriends = $syncFriends + $newUsers;
     }
 
+    // Nope..
+    // Instead, search twitter_user for $syncFriends
+    // Diff result with $syncFriends
     if($syncFriends)
     {
     	$user->following()->sync($syncFriends, true);

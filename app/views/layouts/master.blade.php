@@ -11,15 +11,11 @@
 			<a href="{{ URL::to('dashboard') }}" class="logo">Filta</a>
 		</div>
 		@if($current_user)
-		<div style="float: left; display: block; width: 40%">
-			<div class="header-buttons">
-				<a class="button button--primary" href="{{ URL::to('twitter/import') }}">Import</a>
-				<a class="button button--twitter" href="{{ URL::route('logout') }}">Logout</a>
-			</div>
-		</div>
-		@else
-			<div class="header-buttons">
-				<a class="button button--twitter" href="{{ URL::route('twitter.connect') }}">Connect with Twitter</a>
+			<div style="float: left; display: block; width: 40%">
+				<div class="header-buttons">
+					<a class="button button--primary" href="{{ URL::to('twitter/import') }}">Import</a>
+					<a class="button button--twitter" href="{{ URL::route('logout') }}">Logout</a>
+				</div>
 			</div>
 		@endif
 
