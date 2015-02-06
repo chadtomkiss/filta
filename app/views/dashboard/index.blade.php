@@ -22,9 +22,16 @@
 <script type="text/javascript" src="js/utils.js"></script>
 <script>
 var FILTA = {
+	initilize: function(term) {
+		var words = term.split(' ');
+
+		$.each(words, function(i, word) {
+			$('#following-table-container').highlight(word);
+		});
+	},
 	searchData : function(term) {
 		$.ajax({
-			url:"api/following",
+			url:"following/search",
 			method:'get',
 			data: { query: term },
 			success: function(resHTML) {
@@ -45,6 +52,7 @@ var FILTA = {
 
 $(document).ready(function(){
 	var search = $('#js-search-followers');
+	FILTA.initilize(search.val());
 
 	search.keyup( $.debounce(300, function(e) {
 		var query = $(this).val();

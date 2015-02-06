@@ -112,7 +112,14 @@
 
 		    if($syncFriends)
 		    {
-		    	$user->following()->sync($syncFriends, false);
+		    	$existing = $user->following()->whereIn('following_id', $syncFriends)->lists('following_id');
+
+		        $createFriends = ($existing) ? array_diff($syncFriends, $existing) : $syncFriends;
+
+		        if($createFriends)
+		        {
+		            $user->following()->attach($createFriends);
+		        }
 		    }
 
 		    $lastImport = ($nextCursor > 0) ? $cursor : 0;

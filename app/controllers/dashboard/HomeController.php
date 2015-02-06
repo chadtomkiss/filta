@@ -7,6 +7,7 @@
 	use Input;
 
 	class HomeController extends BaseController {
+		
 		public function getIndex()
 		{
 			$user = Sentry::getUser();

@@ -114,8 +114,6 @@ Route::get('logout', array('as' => 'logout', 'uses' => function() {
 }));
 
 Route::post('twitter/import', array('as' => 'twitter.import.post', 'uses' => function() {
-	set_time_limit(0);
-    ini_set('max_execution_time', 500);
 
     $user = Sentry::getUser();
 
@@ -133,14 +131,13 @@ Route::post('twitter/import', array('as' => 'twitter.import.post', 'uses' => fun
     catch(Exception $e)
     {
         Log::error($e);
-        dd($e);
-        exit;
+
+        return Redirect::to('dashboard');
     }
 
     if(!isset($friends['users']))
     {
-        dd($friends);
-        exit;
+        return Redirect::to('dashboard');
     }
 
     $nextCursor = $friends['next_cursor_str'];
@@ -193,12 +190,16 @@ Route::post('twitter/import', array('as' => 'twitter.import.post', 'uses' => fun
     	$syncFriends = $syncFriends + $newUsers;
     }
 
-    // Nope..
-    // Instead, search twitter_user for $syncFriends
-    // Diff result with $syncFriends
     if($syncFriends)
     {
-    	$user->following()->sync($syncFriends, true);
+    	$existing = $user->following()->whereIn('following_id', $syncFriends)->lists('following_id');
+
+        $createFriends = ($existing) ? array_diff($syncFriends, $existing) : $syncFriends;
+
+        if($createFriends)
+        {
+            $user->following()->attach($createFriends);
+        }
     }
 
     $queueData = array(
@@ -212,7 +213,7 @@ Route::post('twitter/import', array('as' => 'twitter.import.post', 'uses' => fun
     return Redirect::to('dashboard');
 }));
 
-Route::get('api/following', function() {
+Route::get('following/search', function() {
 	$user = Sentry::getUser();
 	$userID = $user->id;
 
@@ -229,60 +230,3 @@ Route::get('api/following', function() {
 
 	return $html;
 });
-
-// Route::get('faker', function() {
-
-//     set_time_limit(0);
-//     ini_set('max_execution_time', 1000);
-//     ini_set('memory_limit','10G');
-//     error_reporting(E_ALL);
-//     ini_set('display_errors', 1);
-
-//     $faker = Faker\Factory::create();
-
-//     $users = array();
-//     $now = \Carbon\Carbon::now()->format('Y-m-d H:i:s');
-
-//     $password = Hash::make('scott_riley_m8s');
-
-//     $twitterUserID = $faker->randomDigitNotNull;
-//     $name = $faker->name;
-//     $userName = $faker->userName;
-//     $city = $faker->city;
-//     $sentence = $faker->sentence(6);
-//     $url = $faker->url;
-//     $imageUrl = $faker->imageUrl(90, 90);
-
-//     for($i = 0; $i <= 300000; $i++)
-//     {
-//         $users[] = array(
-//             'email' => 'omgwtflolm8'.$i.'@hotmail.com',
-//             'password' => $password,
-//             'twitter_user_id' => $twitterUserID,
-//             'twitter_user_name' => $name,
-//             'twitter_user_screen_name' => $userName,
-//             'twitter_user_location' => $city,
-//             'twitter_user_description' => $sentence,
-//             'twitter_user_url' => $url,
-//             'twitter_user_profile_image_url' => $imageUrl,
-//             'twitter_user_profile_image_url_https' => $imageUrl,
-//             'activated' => true,
-//             'created_at' => $now,
-//             'updated_at' => $now
-//         );
-//     }
-
-//     foreach(array_chunk($users, 5000) as $userChunk)
-//     {
-//          User::insert($userChunk);
-//     }
-    
-//     // $user = Sentry::getUser();
-
-//     // $syncFriends = User::where('id', '!=', $user->id)->lists('id');
-
-//     // foreach(array_chunk($syncFriends, 50000) as $syncFriendsChunk)
-//     // {
-//     //      $user->following()->sync($syncFriendsChunk, false);
-//     // }
-// });

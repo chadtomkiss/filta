@@ -22,6 +22,7 @@
 		<h3>Use Cases</h3>
 		<p>Find people who are in the city you're about to visit.</p> 
 		<p>Find people who do Rails.</p>
+		<p>Find people who worked on <a href="http://twitter.com/benhowdle">@plotmovies</a>.</p>
 		<p>Find people that love <a href="http://twitter.com/jongold">@jongold</a>.</p>
 		<p></p> 
 		<a class="button button--twitter" style="margin: 10px 0" href="{{ URL::route('twitter.connect') }}">Connect with Twitter</a>

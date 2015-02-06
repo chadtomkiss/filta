@@ -18,6 +18,7 @@
 		public function paginate($userID, $term, $perPage)
 		{
 			$following = User::select(array(
+					'users.id',
 					'twitter_user_name',
 					'twitter_user_screen_name',
 					'twitter_user_description',
@@ -30,27 +31,11 @@
 
 			if($term)
 			{
-				$following->where(function($query) use ($term) 
-				{
-					$parts = explode(' ', $term);
-
-					$safeTerm = array();
-					foreach($parts as $part)
-					{
-						if($part)
-						{
-							$safeTerm[] = preg_replace('/[^a-zA-Z0-9\s]/', '', trim($part)) . ':*';
-						}
-					}
-
-					if($safeTerm)
-					{
-						$search = join('&', $safeTerm);
-						$query->whereRaw("searchtext @@ to_tsquery(?)", array($search));
-					}
-				});
+				$term = "*" . preg_replace('/[^a-zA-Z0-9\s]/', '', trim($term)) . "*";
+				$following->whereRaw('MATCH(twitter_user_location, twitter_user_description) AGAINST (? IN BOOLEAN MODE)', array($term));
 			}
-			
-			return $following->remember(60)->paginate($perPage);
+
+			return $following->paginate($perPage);
 		}
 	}
+
