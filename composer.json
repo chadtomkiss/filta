@@ -9,7 +9,8 @@
 		"cartalyst/sentry": "2.1.*",
 		"socialh4ck/twitter": "dev-master",
 		"socialh4ck/twitteroauth": "dev-master",
-		"fzaninotto/faker": "1.4.*"
+		"fzaninotto/faker": "1.4.*",
+		"pda/pheanstalk": "~3.0"
 	},
 	"autoload": {
 		"classmap": [
