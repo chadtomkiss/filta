@@ -143,9 +143,9 @@ Route::post('twitter/import', array('as' => 'twitter.import.post', 'uses' => fun
     $processNow = array_slice($friends['ids'], 0, 200);
     $processLater = array_slice($friends['ids'], 200);
 
-    foreach(array_chunk($processNow, 100) as $friendIds) 
+    foreach(array_chunk($processNow, 100) as $twitterIDs) 
     {
-        $friendArray = Twitter::usersLookup($friendIds);
+        $friendArray = Twitter::usersLookup($twitterIDs);
 
         foreach($friendArray as $friend)
         {
