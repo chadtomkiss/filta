@@ -1,5 +1,6 @@
 <?php namespace Filta\Services\Queue;
 
+	use DB;
 	use Twitter;
 	use Queue;
 	use User;
@@ -9,6 +10,8 @@
 
 		public function storeUsers($job, $data)
 		{
+			DB::reconnect();
+
 			$userId = array_get($data, 'user_id');
 			$friendIds = array_get($data, 'friend_ids');
 			$user = User::find($userId);
