@@ -10,8 +10,7 @@
 		public function storeUsers($job, $data)
 		{
 			$userId = array_get($data, 'user_id');
-			$cursor = array_get($data, 'next_cursor');
-
+			$friendIds = array_get($data, 'friend_ids');
 			$user = User::find($userId);
 
 			if(!$user)
@@ -35,17 +34,11 @@
    	 		$retry = false;
    	 		try
    	 		{
-   	 			$friends = Twitter::friendsList($user->twitter_user_id, NULL, $cursor);
+   	 			$friends = Twitter::usersLookup($friendIds);
    	 		}
    	 		catch(Exception $e)
    	 		{
    	 			Log::error($e);
-   	 		}
-   	 		
-   	 		if(!isset($friends['users']))
-   	 		{
-   	 			Log::error(json_encode($friends));
-   	 			throw new Exception('No users.');
    	 		}
 
 	 		if($job->attempts() > 3)
@@ -53,10 +46,9 @@
  				$job->delete();
  			}
 
-   	 		$nextCursor = $friends['next_cursor_str'];
 		    $friendIDs = array();
 
-		    foreach($friends['users'] as $friend)
+		    foreach($friends as $friend)
 		    {
 		    	$twitter_user_id = array_get($friend, 'id_str');
 			    $twitter_user_name = array_get($friend, 'name');
@@ -115,23 +107,6 @@
 		        }
 		    }
 
-		    $lastImport = ($nextCursor > 0) ? $cursor : 0;
-
-		    $user->last_import = $lastImport;
-		    $user->save();
-
-			// Next batch
-			if($nextCursor > 0)
-			{
-				$queueData = array(
-					'user_id' => $user->id,
-					'next_cursor' => $nextCursor,
-				);
-
-				$date = \Carbon\Carbon::now()->addSeconds(120);
-				Queue::later($date, '\Filta\Services\Queue\FollowingQueue@storeUsers', $queueData);
-			}
-			
 			$job->delete();
 		}
 	}
