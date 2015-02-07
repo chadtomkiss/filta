@@ -217,7 +217,7 @@ Route::post('twitter/import', array('as' => 'twitter.import.post', 'uses' => fun
                 'friend_ids' => $friendIds,
             );
 
-            $queueDate = $date->addSeconds(10);
+            $queueDate = $date->addSeconds(30);
             Queue::later($queueDate, '\Filta\Services\Queue\FollowingQueue@storeUsers', $queueData);
         }
     }
