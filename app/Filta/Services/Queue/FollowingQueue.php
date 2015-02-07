@@ -40,25 +40,18 @@
    	 		catch(Exception $e)
    	 		{
    	 			Log::error($e);
-   	 			$retry = true;
    	 		}
    	 		
    	 		if(!isset($friends['users']))
    	 		{
    	 			Log::error(json_encode($friends));
-				$retry = true; 
+   	 			throw new Exception('No users.');
    	 		}
 
-   	 		if($retry)
-   	 		{
-   	 			if($job->attempts() < 3)
-	 			{
-	 				$job->release(120);
-	 			}
-
-	 			$job->delete();
-	 			exit;
-	 		}
+	 		if($job->attempts() > 3)
+ 			{
+ 				$job->delete();
+ 			}
 
    	 		$nextCursor = $friends['next_cursor_str'];
 		    $friendIDs = array();
