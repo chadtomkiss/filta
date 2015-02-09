@@ -48,6 +48,12 @@ Route::filter('auth', function()
 	}
 });
 
+Route::filter('auth.sentry', function() {
+	if(!Sentry::check())
+	{
+		return Redirect::guest('/');
+	}
+});
 
 Route::filter('auth.basic', function()
 {

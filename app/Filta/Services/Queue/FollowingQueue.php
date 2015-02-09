@@ -13,7 +13,7 @@
 			DB::reconnect();
 
 			$userId = array_get($data, 'user_id');
-			$friendIds = array_get($data, 'friend_ids');
+			$addFriends = array_get($data, 'friend_ids');
 			$user = User::find($userId);
 
 			if(!$user)
@@ -33,19 +33,22 @@
 			Twitter::setOAuthToken($twitterOAuthToken);
    	 		Twitter::setOAuthTokenSecret($twitterOAuthSecret);
 
-   	 		$friends = NULL;
+   	 		$friends = array();
    	 		$retry = false;
    	 		try
    	 		{
-   	 			$friends = Twitter::usersLookup($friendIds);
+   	 			$friends = Twitter::usersLookup($addFriends);
    	 		}
    	 		catch(Exception $e)
    	 		{
    	 			Log::error($e);
    	 		}
 
+            Log::info("queue import for {$user->id}: ".count($addFriends));
+
 	 		if($job->attempts() > 3)
  			{
+ 				Log::info('deleting job for {$user->id}');
  				$job->delete();
  			}
 
@@ -84,31 +87,43 @@
 			    $friendIDs[$twitter_user_id] = $details;
 		    }
 
-			$twitterUserIDs = array_keys($friendIDs);
-			$existingUsers = User::whereIn('twitter_user_id', $twitterUserIDs)->lists('twitter_user_id', 'id');
+			Log::info('queue: adding for {$user->id}: '.count($friendIDs));
 
-		    $createFriends = array_diff_key($friendIDs, array_flip(array_values($existingUsers)));
-		    $syncFriends = array_keys($existingUsers);
+            $twitterUserIDs = array_keys($friendIDs);
+            $existingUsers = User::whereIn('twitter_user_id', $twitterUserIDs)->lists('twitter_user_id', 'id');
 
-		    if($createFriends)
-		    {
-		    	User::insert($createFriends);
-		    	$newUsers = User::whereIn('twitter_user_id', array_keys($createFriends))->lists('id');
+            $createFriends = array_diff_key($friendIDs, array_flip(array_values($existingUsers)));
+            $syncFriends = array_keys($existingUsers);
 
-		    	$syncFriends = $syncFriends + $newUsers;
-		    }
+            Log::info("queue: users already in db: ".count($existingUsers));
 
-		    if($syncFriends)
-		    {
-		    	$existing = $user->following()->whereIn('following_id', $syncFriends)->lists('following_id');
+            if($createFriends)
+            {
+                User::insert($createFriends);
+                $newUsers = User::whereIn('twitter_user_id', array_keys($createFriends))->lists('id');
 
-		        $createFriends = ($existing) ? array_diff($syncFriends, $existing) : $syncFriends;
+                Log::info("queue: creating users for {$user->id}: ".count($newUsers));
 
-		        if($createFriends)
-		        {
-		            $user->following()->attach($createFriends);
-		        }
-		    }
+                $syncFriends = $syncFriends + $newUsers;
+            }
+
+            if($syncFriends)
+            {
+            	Log::info("queue: sync friends for {$user->id}: ".count($syncFriends));
+
+                $existing = $user->following()->whereIn('following_id', $syncFriends)->lists('following_id');
+
+                Log::info("queue: existing friends for {$user->id}: ".count($existing));
+
+                $createFriends = ($existing) ? array_diff($syncFriends, $existing) : $syncFriends;
+
+                if($createFriends)
+                {
+                	Log::info("queue: attaching friends for {$user->id}: ".count($createFriends));
+
+                    $user->following()->attach($createFriends);
+                }
+            }
 
 			$job->delete();
 		}
