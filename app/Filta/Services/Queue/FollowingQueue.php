@@ -84,23 +84,32 @@
            	 		'updated_at' => \Carbon\Carbon::now()->format('Y-m-d H:i:s')
 			    );
 
-			    $friendIDs[$twitter_user_id] = $details;
+			    $friendIDs[] = array(
+                	'twitter_user_id' => $twitter_user_id,
+                	'details' => $details
+                );
 		    }
 
 			Log::info('queue: adding for {$user->id}: '.count($friendIDs));
 
-            $twitterUserIDs = array_keys($friendIDs);
+            $twitterUserIDs = array_column($friendIDs, 'twitter_user_id');
             $existingUsers = User::whereIn('twitter_user_id', $twitterUserIDs)->lists('twitter_user_id', 'id');
 
-            $createFriends = array_diff_key($friendIDs, array_flip(array_values($existingUsers)));
+            $createFriends = array_filter($friendIDs, function($row) use($existingUsers) {
+		        return (!in_array($row['twitter_user_id'], $existingUsers));
+		    });
+
             $syncFriends = array_keys($existingUsers);
 
             Log::info("queue: users already in db: ".count($existingUsers));
 
             if($createFriends)
             {
-                User::insert($createFriends);
-                $newUsers = User::whereIn('twitter_user_id', array_keys($createFriends))->lists('id');
+            	$insertFriendIDs = array_column($createFriends, 'twitter_user_id');
+            	$insertFriends = array_column($createFriends, 'details');
+
+                User::insert($insertFriends);
+                $newUsers = User::whereIn('twitter_user_id', $insertFriendIDs)->lists('id');
 
                 Log::info("queue: creating users for {$user->id}: ".count($newUsers));
 
