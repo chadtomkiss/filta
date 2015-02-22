@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddFullTextToUserTable extends Migration {
+class EditUserFullText extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,6 +12,7 @@ class AddFullTextToUserTable extends Migration {
 	 */
 	public function up()
 	{
+		DB::statement('ALTER TABLE users DROP INDEX twitter_user_location');
 		DB::statement('ALTER TABLE users ADD FULLTEXT(twitter_user_screen_name, twitter_user_name, twitter_user_location, twitter_user_description);');
 	}
 
@@ -23,6 +24,7 @@ class AddFullTextToUserTable extends Migration {
 	public function down()
 	{
 		DB::statement('ALTER TABLE users DROP INDEX twitter_user_screen_name');
+		DB::statement('ALTER TABLE users ADD FULLTEXT(twitter_user_location, twitter_user_description);');
 	}
 
 }

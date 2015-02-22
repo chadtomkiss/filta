@@ -27,13 +27,7 @@
 		    </tbody>
 		</table>
 
-		<div class="pagination_container">
-		@if($users->getCurrentPage() == 1 && ($users->getCurrentPage() == $users->getLastPage()))
-			This is as far as I can take you :(
-		@else
-			{{ $users->links() }}
-		@endif
-		</div>
+		{{ $users->links() }}
 	@else
 		Nobody loves {{ Input::get('query') }} :(
 	@endif

@@ -109,6 +109,9 @@ Route::group(array('before' => 'auth.sentry'), function() {
 
     Route::get('following/search', array('as' => 'twitter.search', 'uses' => 'Dashboard\SearchController@getFollowing'));
 
+    Route::post('following/search/save', array('as' => 'twitter.search.saved.post', 'uses' => 'Dashboard\SearchController@postSave'));
+
+
     Route::get('logout', array('as' => 'logout', 'uses' => function() {
         Sentry::logout();
 

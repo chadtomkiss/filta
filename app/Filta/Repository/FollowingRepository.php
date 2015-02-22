@@ -32,7 +32,7 @@
 			if($term)
 			{
 				$term = "*" . preg_replace('/[^a-zA-Z0-9\s]/', '', trim($term)) . "*";
-				$following->whereRaw('MATCH(twitter_user_location, twitter_user_description) AGAINST (? IN BOOLEAN MODE)', array($term));
+				$following->whereRaw('MATCH(twitter_user_name, twitter_user_screen_name, twitter_user_location, twitter_user_description) AGAINST (? IN BOOLEAN MODE)', array($term));
 			}
 
 			return $following->paginate($perPage);
