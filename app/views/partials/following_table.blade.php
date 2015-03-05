@@ -27,9 +27,11 @@
 		    </tbody>
 		</table>
 
-		<div class="pagination_container">
-			{{ $users->links() }}
-		</div>
+		@if($users->getLastPage() > 1)
+			<div class="pagination_container">
+				{{ $users->links() }}
+			</div>
+		@endif
 	@else
 		Nobody loves {{ Input::get('query') }} :(
 	@endif

@@ -3,7 +3,7 @@ var FILTA = {
 		var words = term.split(' ');
 		var save_search = $('.js-save-search');
 
-		if(words.length > 0 && $('.js-following-table tr').length)
+		if(term != '' && $('.js-following-table tr').length)
 		{
 			save_search.css('display', 'block');
 		}
@@ -29,7 +29,7 @@ var FILTA = {
 
 				var words = search.split(' ');
 
-				if(search.length > 0 && $('.js-following-table tr').length)
+				if(term != '' && $('.js-following-table tr').length)
 				{
 					save_search.css('display', 'block');
 				}
