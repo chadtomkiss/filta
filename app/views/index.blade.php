@@ -31,25 +31,13 @@
 				<h1>Why you'll love using Filta</h1>
 			</div>
 
-			<div style="float: left; width: 33.3%; padding: 5%">
-				<i class="fa fa-street-view fa-3x"></i>
-				<h2>Location</h2>
-				<p>You follow people because they are awesome right? Go meet 'em.</p>
+			<div style="width: 80%; margin: 40px auto; line-height: 25px">
+			<p>We follow people for a reason, because they are awesome right? Maybe they're a ridiculously talented illustrator (fyi, <a href="http://twitter.com/jackiesaik">@jackiesaik</a> did the sick as fuck illo down below), or perhaps they love photography as much as you do and have the best <a href="http://exposure.so">@exposure</a> posts.</p>
+
+			<p>If you're visiting a new city and want to get beers, or looking to hire someone for that awesome app you are building, you can quickly search and organize them using Filta.</p>
 			</div>
 
-			<div style="float: left; width: 33.3%;  padding: 5%">
-				<i class="fa fa-university fa-3x"></i>
-				<h2>Profession</h2>
-				<p>Looking for some design help? People tend to put their skills in their bio.</p>
-			</div>
-
-			<div style="float: left; width: 33.3%; padding: 5%">
-				<i class="fa fa-film fa-3x"></i>
-				<h2>Hobbies</h2>
-				<p>Find people who also love the things you do.</p>
-			</div>
-
-			<div style="clear: both"></div>
+			<img src="{{ URL::to('img/super-duper-jackie-saik-illo.svg') }}" />
 
 		</div>
 	</div>
@@ -71,7 +59,7 @@
     </div>
 
 	@section('scripts')
-		<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+		<!--<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>-->
 	@show
 </body>
 </html>
