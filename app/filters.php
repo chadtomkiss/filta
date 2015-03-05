@@ -94,3 +94,25 @@ Route::filter('csrf', function()
 		throw new Illuminate\Session\TokenMismatchException;
 	}
 });
+
+View::share('following_count', function() {
+
+	$user = Sentry::getUser();
+
+	if(!$user)
+	{
+		return 0;
+	}
+
+	$followingCountCacheKey = md5('userid.'.$user->id.'.following_count');
+	if(!Cache::has($followingCountCacheKey))
+	{
+		$following_count = $user->following()->count();
+	}
+	else
+	{
+		$following_count = Cache::get($followingCountCacheKey);
+	}
+
+	return $following_count;
+});

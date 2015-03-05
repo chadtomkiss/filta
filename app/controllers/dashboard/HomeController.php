@@ -24,15 +24,15 @@
 
 			$data['users'] = $search;
 
-			$cacheKey = md5('userid.'.$user->id.'.saved_searches');
+			$savedCacheKey = md5('userid.'.$user->id.'.saved_searches');
 
-			if(!Cache::has($cacheKey)) {
+			if(!Cache::has($savedCacheKey)) {
 				$saved_searches = Search::where('user_id', $user->id)->get();	
 
-				Cache::forever($cacheKey, $saved_searches);
+				Cache::forever($savedCacheKey, $saved_searches);
 			}
 			else {
-				$saved_searches = Cache::get($cacheKey);
+				$saved_searches = Cache::get($savedCacheKey);
 			}
 
 			$data['saved_searches'] = $saved_searches;

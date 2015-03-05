@@ -14,7 +14,10 @@
 
 		@if($current_user)
 			<div class="header-nav">
-				<a class="btn btn__primary" href="{{ URL::to('twitter/import') }}">Import</a>
+
+				@if($following_count)
+					<a class="btn btn__primary" href="{{ URL::to('twitter/import') }}">Import</a>
+				@endif
 				<a class="btn btn__secondary" href="{{ URL::route('logout') }}">Logout</a>
 			</div>
 		@endif
