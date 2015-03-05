@@ -36,7 +36,8 @@
 
 		<footer>
 			<div class="cta">
-				<a class="btn btn__primary" href="{{ URL::route('twitter.connect') }}">Get Started for Free</a>
+				<a class="btn btn__primary" style="padding: 2%" href="{{ URL::route('twitter.connect') }}">Get Started for Free</a>
+
 			</div>
 
 	        <div class="social">
