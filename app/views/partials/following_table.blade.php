@@ -1,16 +1,16 @@
 <div id="following-table-container">
 	@if($users->count())
-		<table id="myTable" class="ranking-table">
+		<table class="following-table js-following-table">
 			<thead>
 				<tr>
-					<th style="width: 30%" colspan="2">Name</th>
-					<th style="width: 25%">Location</th>
+					<th class="header-name" colspan="2">Name</th>
+					<th class="header-location">Location</th>
 					<th>Description</th>
 				</tr>
 			</thead>
 		    <tbody>
 		    @foreach($users as $user)
-		        <tr class="ranking-row">
+		        <tr>
 		        	<td>
 		        		<img src="{{ $user->twitter_user_profile_image_url_https }}" class="avatar" />
 					</td>
@@ -27,7 +27,9 @@
 		    </tbody>
 		</table>
 
-		{{ $users->links() }}
+		<div class="pagination_container">
+			{{ $users->links() }}
+		</div>
 	@else
 		Nobody loves {{ Input::get('query') }} :(
 	@endif

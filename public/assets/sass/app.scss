@@ -1,0 +1,13 @@
+/* SETUP */
+@import 'setup/variables';
+@import 'setup/reset';
+
+@import 'vendor/normalize';
+
+/* COMPONENTS */
+@import 'components/header';
+@import 'components/content';
+@import 'components/pagination';
+
+/* OBJECTS */
+@import 'objects/buttons';

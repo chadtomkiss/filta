@@ -50,6 +50,25 @@
 				Cache::forget($cacheKey);
 			}
 
-			return Redirect::route('dashboard');
+			return Redirect::route('dashboard', array('query' => $query));
+		}
+
+		public function putDelete()
+		{
+			$user = Sentry::getUser();
+
+			$searchID = Input::get('search_id');
+
+			$search = Search::where('user_id', $user->id)->find($searchID);
+
+			if($search)
+			{
+				$search->delete();
+
+				$cacheKey = md5('userid.'.$user->id.'.saved_searches');
+				Cache::forget($cacheKey);
+			}
+
+			return;
 		}
 	}

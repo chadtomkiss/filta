@@ -1,0 +1,114 @@
+/* SETUP */
+@import 'setup/variables';
+@import 'setup/reset';
+
+@import 'vendor/normalize';
+
+/* COMPONENTS */
+@import 'components/header';
+@import 'components/content';
+
+/* OBJECTS */
+@import 'objects/buttons';
+
+body {
+	background: #F38264;
+	color: white;
+
+}
+
+.site-header {
+	width: 70%; 
+	margin: 0 auto; 
+	margin-bottom: 6%; 
+	margin-top: 2%;
+
+	.header-nav {
+		float: left; 
+		width: 95%; 
+		margin-top: 5px; 
+		text-align: right;
+	}
+}
+
+.hero {
+	width: 70%; 
+	margin: 0 auto; 
+	text-align: center;
+
+	h2 {
+		margin-bottom: 5%;
+	}
+
+	.screenshot {
+		display: block; 
+		width: 100%; 
+		padding: 0; 
+		margin: 0
+	}
+}
+
+.why {
+	background: $color-white; 
+	color: $color-black; 
+	text-align: center; 
+	line-height: 25px;
+	padding: 5% 15%;
+
+	h1 {
+		margin: 0 auto; 
+	}
+
+	a {
+		color: $color-green;
+		font-weight: bold;
+		text-decoration: none;
+
+		&:hover {
+			color: darken($color-green, 5%);
+		}
+	}
+
+	.pitch {
+		width: 80%; 
+		margin: 60px auto; 
+	}
+}
+
+.logo {
+	text-decoration: none;
+	text-transform: uppercase;
+	color: $color-white;
+	-webkit-font-smoothing: antialiased;
+	font-size: 1.4em;
+	font-weight: bold;
+	line-height: 1.3;
+
+	color: white; 
+	float: left; 
+	width: 5%;
+}
+
+.container {
+	min-height:100%; 
+	position:relative;
+}
+
+footer {
+	text-align: center; 
+	padding-bottom: 30px;
+	padding-top: 40px;
+
+	.cta {
+		padding-bottom: 80px;
+	}
+
+	a {
+		color: white;
+		text-decoration: none;
+	}
+
+	a:hover {
+		color: #EEE;
+	}
+}

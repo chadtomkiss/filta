@@ -1,0 +1,62 @@
+body {
+  font-family: 'Source Sans Pro', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  margin: 0;
+  padding: 0;
+  background: #EEE;
+  font-size: 15px; 
+}
+
+* {
+	box-sizing: border-box; 
+}
+
+a:hover {
+	transition: all 0.2s ease-in-out;
+}
+
+h1 {
+  font-weight: 200;
+}
+
+input {
+	border: 1px solid #ccc;
+	border-radius: 3px;
+	padding: 0.5em;
+	margin-bottom: 0.4em;
+	display: block;
+	width: 90%;
+	max-width: 400px; 
+}
+
+label {
+	display: block;
+	font-weight: bold;
+	margin-bottom: 0.5em;
+	color: #444;
+	-webkit-font-smoothing: antialiased; 
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+.clearfix:before,
+.clearfix:after {
+    content: " "; /* 1 */
+    display: table; /* 2 */
+}
+
+.clearfix:after {
+    clear: both;
+}
+
+/*
+ * For IE 6/7 only
+ * Include this rule to trigger hasLayout and contain floats.
+ */
+
+.clearfix {
+    *zoom: 1;
+}
