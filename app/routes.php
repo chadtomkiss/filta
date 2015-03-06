@@ -11,7 +11,7 @@
 |
 */
 
-Route::get('/', array('as' => 'home', 'uses' => 'HomeController@getIndex'));
+Route::get('/', array('as' => 'home', 'uses' => 'HomeController@getIndex', 'https'));
 
 Route::get('twitter/connect', array('as' => 'twitter.connect', 'uses' => function(){
     // Reqest tokens
@@ -20,9 +20,9 @@ Route::get('twitter/connect', array('as' => 'twitter.connect', 'uses' => functio
     // Redirect to twitter
     Twitter::oAuthAuthenticate(array_get($tokens, 'oauth_token'));
     exit;
-}));
+}, 'https'));
 
-Route::get('twitter/auth', function(){
+Route::get('twitter/auth', array('uses' => function(){
     // Oauth token
     $token = Input::get('oauth_token');
 
@@ -99,24 +99,24 @@ Route::get('twitter/auth', function(){
     Sentry::login($user);
 
     return Redirect::route('dashboard');
-});
+}, 'https'));
 
 Route::group(array('before' => 'auth.sentry'), function() {
-    Route::get('dashboard', array('as' => 'dashboard', 'uses' => 'Dashboard\HomeController@getIndex'));
+    Route::get('dashboard', array('as' => 'dashboard', 'uses' => 'Dashboard\HomeController@getIndex', 'https'));
 
-    Route::get('twitter/import', array('as' => 'twitter.import', 'uses' => 'Dashboard\ImportController@getImport'));
-    Route::post('twitter/import', array('as' => 'twitter.import.post', 'uses' => 'Dashboard\ImportController@postImport'));
+    Route::get('twitter/import', array('as' => 'twitter.import', 'uses' => 'Dashboard\ImportController@getImport', 'https'));
+    Route::post('twitter/import', array('as' => 'twitter.import.post', 'uses' => 'Dashboard\ImportController@postImport', 'https'));
 
-    Route::get('following/search', array('as' => 'twitter.search', 'uses' => 'Dashboard\SearchController@getFollowing'));
+    Route::get('following/search', array('as' => 'twitter.search', 'uses' => 'Dashboard\SearchController@getFollowing', 'https'));
 
-    Route::post('following/search/save', array('as' => 'twitter.search.saved.post', 'uses' => 'Dashboard\SearchController@postSave'));
-    Route::put('following/search/delete', array('as' => 'twitter.search.saved.delete', 'uses' => 'Dashboard\SearchController@putDelete'));
+    Route::post('following/search/save', array('as' => 'twitter.search.saved.post', 'uses' => 'Dashboard\SearchController@postSave', 'https'));
+    Route::put('following/search/delete', array('as' => 'twitter.search.saved.delete', 'uses' => 'Dashboard\SearchController@putDelete', 'https'));
 
     Route::get('logout', array('as' => 'logout', 'uses' => function() {
         Sentry::logout();
 
         return Redirect::route('home');
-    }));
+    }, 'https'));
 });
 
 // Setup laravel logs
