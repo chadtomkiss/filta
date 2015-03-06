@@ -54,7 +54,7 @@ return array(
 
 		'mysql' => array(
 			'driver'    => 'mysql',
-			'host'      => 'localhost',
+			'host'      => getenv('DB_HOST') ?: 'localhost',
 			'database'  => 'forge',
 			'username'  => getenv('DB_USER'),
 			'password'  => getenv('DB_PASS'),
@@ -114,7 +114,7 @@ return array(
 		'cluster' => false,
 
 		'default' => array(
-			'host'     => '127.0.0.1',
+			'host'     => getenv('DB_HOST') ?: '127.0.0.1',
 			'port'     => 6379,
 			'database' => 0,
 		),
