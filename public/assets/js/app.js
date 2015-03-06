@@ -66,8 +66,7 @@ var FILTA = {
 };
 
 $(document).ready(function(){
-	var search = $('#js-search-followers');
-	var save_search = $('.js-save-search');
+	var search = $('#js-search-followers');	
 
 	FILTA.initilize(search.val());
 
@@ -76,7 +75,6 @@ $(document).ready(function(){
 
 		FILTA.searchData(query);
 	}));
-
 
 	$(".js-saved-search-list li").hover(
 		function() {
