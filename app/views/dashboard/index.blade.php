@@ -24,7 +24,7 @@
 						{{ Form::open(array('route' => 'twitter.search.saved.post')) }}
 							
 							<input type="text" name="search_followers" value="{{ Input::get('query') }}" id="js-search-followers" placeholder="Search..." />
-							<button type="submit" class="btn btn__secondary js-save-search">Save this Search</button>
+							<button type="submit" class="btn btn__secondary btn-save-search js-save-search">Save this Search</button>
 							
 						{{ Form::close() }}
 					</div>
