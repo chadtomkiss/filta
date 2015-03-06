@@ -114,7 +114,7 @@ return array(
 		'cluster' => false,
 
 		'default' => array(
-			'host'     => getenv('DB_HOST') ?: '127.0.0.1',
+			'host'     => getenv('REDIS_HOST') ?: '127.0.0.1',
 			'port'     => 6379,
 			'database' => 0,
 		),
