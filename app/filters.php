@@ -104,6 +104,5 @@ if($user)
 		return $user->following()->count();
 	});
 
-
 	View::share('following_count', $following_count);	
 }

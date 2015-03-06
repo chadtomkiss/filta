@@ -21,6 +21,9 @@
 				exit;
 			}
 
+			$followingCountCacheKey = md5('userid.'.$user->id.'.following_count');
+			Cache::forget($followingCountCacheKey);
+
 			$twitterOAuthToken = $user->twitter_oauth_token;
 			$twitterOAuthSecret = $user->twitter_oauth_token_secret;
 
