@@ -1,6 +1,7 @@
 <?php namespace Filta\Services\Queue;
 
 	use DB;
+	use Cache;
 	use Twitter;
 	use Queue;
 	use User;
