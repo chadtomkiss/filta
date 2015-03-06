@@ -97,10 +97,13 @@ Route::filter('csrf', function()
 
 $user = Sentry::getUser();
 
-$followingCountCacheKey = md5('userid.'.$user->id.'.following_count');
-$following_count = Cache::remember($followingCountCacheKey, 60, function() use ($user) {
-	return $user->following()->count();
-});
+if($user)
+{
+	$followingCountCacheKey = md5('userid.'.$user->id.'.following_count');
+	$following_count = Cache::remember($followingCountCacheKey, 60, function() use ($user) {
+		return $user->following()->count();
+	});
 
 
-View::share('following_count', $following_count);
+	View::share('following_count', $following_count);	
+}
