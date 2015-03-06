@@ -5,9 +5,9 @@
 	@if(!$following_count)
 		<div class="intro">
 			<h1>Hello!</h1>
-			<p>Oh man, thank you so, so much for checking out Filta.</p>
+			<p>Thank you so much for checking out Filta.</p>
 			<p>To get started, we just need to import the people you follow.</p>
-
+			
 			<div class="import-form">
 				{{ Form::open(array('route' => 'twitter.import.post')) }}
 					{{ Form::submit('Ok Lets Go', array('class' => 'btn btn__secondary')) }}

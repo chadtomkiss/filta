@@ -95,24 +95,12 @@ Route::filter('csrf', function()
 	}
 });
 
-View::share('following_count', function() {
+$user = Sentry::getUser();
 
-	$user = Sentry::getUser();
-
-	if(!$user)
-	{
-		return 0;
-	}
-
-	$followingCountCacheKey = md5('userid.'.$user->id.'.following_count');
-	if(!Cache::has($followingCountCacheKey))
-	{
-		$following_count = $user->following()->count();
-	}
-	else
-	{
-		$following_count = Cache::get($followingCountCacheKey);
-	}
-
-	return $following_count;
+$followingCountCacheKey = md5('userid.'.$user->id.'.following_count');
+$following_count = Cache::remember($followingCountCacheKey, 60, function() use ($user) {
+	return $user->following()->count();
 });
+
+
+View::share('following_count', $following_count);
