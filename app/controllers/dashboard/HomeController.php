@@ -35,6 +35,7 @@
 				$saved_searches = Cache::get($savedCacheKey);
 			}
 
+			$data['title'] = 'Dashboard';
 			$data['saved_searches'] = $saved_searches;
 
 			return View::make('dashboard.index', $data);
