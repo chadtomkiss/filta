@@ -15,7 +15,9 @@
 
 		public function getImport()
 		{
-			return View::make('dashboard.import');
+			$data['title'] = 'Import the people you follow';
+
+			return View::make('dashboard.import', $data);
 		}
 		
 		public function postImport()
