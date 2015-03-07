@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Filta</title>
+	<title>{{ $title or 'Search the people you follow on Twitter' }} - Filta</title>
 	<link rel="stylesheet" type="text/css" href="assets/css/site.css">
 	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 </head>
