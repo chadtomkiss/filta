@@ -33,6 +33,6 @@
 			</div>
 		@endif
 	@else
-		Nobody loves {{ Input::get('query') }} :(
+		Nobody loves {{{ Input::get('query') }}} :(
 	@endif
 </div>
