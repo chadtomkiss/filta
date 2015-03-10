@@ -45,6 +45,7 @@
    	 		}
    	 		catch(Exception $e)
    	 		{
+   	 			Log::info("failed for {$user->id}");
    	 			Log::error($e);
    	 		}
 
