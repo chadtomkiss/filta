@@ -123,7 +123,7 @@ return array(
 		'Illuminate\Workbench\WorkbenchServiceProvider',
 		'Cartalyst\Sentry\SentryServiceProvider',
 		'Socialh4ck\Twitter\TwitterServiceProvider',
-		'Bugsnag\BugsnagLaravel\BugsnagLaravelServiceProvider'
+		//'Bugsnag\BugsnagLaravel\BugsnagLaravelServiceProvider'
 	),
 
 	/*
@@ -192,7 +192,7 @@ return array(
 		'View'              => 'Illuminate\Support\Facades\View',
 		'Sentry' 			=> 'Cartalyst\Sentry\Facades\Laravel\Sentry',
 		'Twitter' 			=> 'Socialh4ck\Twitter\Facades\Twitter',
-		'Bugsnag' 			=> 'Bugsnag\BugsnagLaravel\BugsnagFacade'
+		//'Bugsnag' 			=> 'Bugsnag\BugsnagLaravel\BugsnagFacade'
 	),
 
 );
